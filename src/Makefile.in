@@ -101,7 +101,8 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_tower_of_hanoi_curses_OBJECTS =  \
 	tower_of_hanoi_curses-main.$(OBJEXT) \
-	tower_of_hanoi_curses-holder.$(OBJEXT)
+	tower_of_hanoi_curses-tower.$(OBJEXT) \
+	tower_of_hanoi_curses-ring.$(OBJEXT)
 tower_of_hanoi_curses_OBJECTS = $(am_tower_of_hanoi_curses_OBJECTS)
 tower_of_hanoi_curses_DEPENDENCIES =
 AM_V_P = $(am__v_P_@AM_V@)
@@ -119,8 +120,9 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/tower_of_hanoi_curses-holder.Po \
-	./$(DEPDIR)/tower_of_hanoi_curses-main.Po
+am__depfiles_remade = ./$(DEPDIR)/tower_of_hanoi_curses-main.Po \
+	./$(DEPDIR)/tower_of_hanoi_curses-ring.Po \
+	./$(DEPDIR)/tower_of_hanoi_curses-tower.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -255,7 +257,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-tower_of_hanoi_curses_SOURCES = main.c holder.c holder.h ring.h
+tower_of_hanoi_curses_SOURCES = main.c tower.c tower.h ring.c ring.h
 tower_of_hanoi_curses_LDADD = @CURSES_LIBS@
 tower_of_hanoi_curses_CPPFLAGS = @CURSES_CFLAGS@
 all: all-am
@@ -344,8 +346,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tower_of_hanoi_curses-holder.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tower_of_hanoi_curses-main.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tower_of_hanoi_curses-ring.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tower_of_hanoi_curses-tower.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -381,19 +384,33 @@ tower_of_hanoi_curses-main.obj: main.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
 
-tower_of_hanoi_curses-holder.o: holder.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tower_of_hanoi_curses-holder.o -MD -MP -MF $(DEPDIR)/tower_of_hanoi_curses-holder.Tpo -c -o tower_of_hanoi_curses-holder.o `test -f 'holder.c' || echo '$(srcdir)/'`holder.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tower_of_hanoi_curses-holder.Tpo $(DEPDIR)/tower_of_hanoi_curses-holder.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='holder.c' object='tower_of_hanoi_curses-holder.o' libtool=no @AMDEPBACKSLASH@
+tower_of_hanoi_curses-tower.o: tower.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tower_of_hanoi_curses-tower.o -MD -MP -MF $(DEPDIR)/tower_of_hanoi_curses-tower.Tpo -c -o tower_of_hanoi_curses-tower.o `test -f 'tower.c' || echo '$(srcdir)/'`tower.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tower_of_hanoi_curses-tower.Tpo $(DEPDIR)/tower_of_hanoi_curses-tower.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tower.c' object='tower_of_hanoi_curses-tower.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-holder.o `test -f 'holder.c' || echo '$(srcdir)/'`holder.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-tower.o `test -f 'tower.c' || echo '$(srcdir)/'`tower.c
 
-tower_of_hanoi_curses-holder.obj: holder.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tower_of_hanoi_curses-holder.obj -MD -MP -MF $(DEPDIR)/tower_of_hanoi_curses-holder.Tpo -c -o tower_of_hanoi_curses-holder.obj `if test -f 'holder.c'; then $(CYGPATH_W) 'holder.c'; else $(CYGPATH_W) '$(srcdir)/holder.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tower_of_hanoi_curses-holder.Tpo $(DEPDIR)/tower_of_hanoi_curses-holder.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='holder.c' object='tower_of_hanoi_curses-holder.obj' libtool=no @AMDEPBACKSLASH@
+tower_of_hanoi_curses-tower.obj: tower.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tower_of_hanoi_curses-tower.obj -MD -MP -MF $(DEPDIR)/tower_of_hanoi_curses-tower.Tpo -c -o tower_of_hanoi_curses-tower.obj `if test -f 'tower.c'; then $(CYGPATH_W) 'tower.c'; else $(CYGPATH_W) '$(srcdir)/tower.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tower_of_hanoi_curses-tower.Tpo $(DEPDIR)/tower_of_hanoi_curses-tower.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tower.c' object='tower_of_hanoi_curses-tower.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-holder.obj `if test -f 'holder.c'; then $(CYGPATH_W) 'holder.c'; else $(CYGPATH_W) '$(srcdir)/holder.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-tower.obj `if test -f 'tower.c'; then $(CYGPATH_W) 'tower.c'; else $(CYGPATH_W) '$(srcdir)/tower.c'; fi`
+
+tower_of_hanoi_curses-ring.o: ring.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tower_of_hanoi_curses-ring.o -MD -MP -MF $(DEPDIR)/tower_of_hanoi_curses-ring.Tpo -c -o tower_of_hanoi_curses-ring.o `test -f 'ring.c' || echo '$(srcdir)/'`ring.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tower_of_hanoi_curses-ring.Tpo $(DEPDIR)/tower_of_hanoi_curses-ring.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ring.c' object='tower_of_hanoi_curses-ring.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-ring.o `test -f 'ring.c' || echo '$(srcdir)/'`ring.c
+
+tower_of_hanoi_curses-ring.obj: ring.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT tower_of_hanoi_curses-ring.obj -MD -MP -MF $(DEPDIR)/tower_of_hanoi_curses-ring.Tpo -c -o tower_of_hanoi_curses-ring.obj `if test -f 'ring.c'; then $(CYGPATH_W) 'ring.c'; else $(CYGPATH_W) '$(srcdir)/ring.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tower_of_hanoi_curses-ring.Tpo $(DEPDIR)/tower_of_hanoi_curses-ring.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ring.c' object='tower_of_hanoi_curses-ring.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(tower_of_hanoi_curses_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o tower_of_hanoi_curses-ring.obj `if test -f 'ring.c'; then $(CYGPATH_W) 'ring.c'; else $(CYGPATH_W) '$(srcdir)/ring.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -522,8 +539,9 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-holder.Po
-	-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-main.Po
+		-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-main.Po
+	-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-ring.Po
+	-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-tower.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -569,8 +587,9 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-holder.Po
-	-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-main.Po
+		-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-main.Po
+	-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-ring.Po
+	-rm -f ./$(DEPDIR)/tower_of_hanoi_curses-tower.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -2,19 +2,20 @@
 #include <string.h>
 
 #include "config.h"
-#include "holder.h"
+#include "tower.h"
 #include "ring.h"
 
 void draw_title();
 void draw_body();
-void draw_holder(int ring_index, int startx, int starty);
+void draw_tower(int ring_index, int startx, int starty);
 void input_loop();
 
 WINDOW *wmain;
 WINDOW *wbody;
 Ring rings[3];
-Holder holders[3];
-int hover = 0; // initially, hover over the leftmost holder
+Ring *held = NULL;
+Tower towers[3];
+int hover = 0; // initially, hover over the leftmost tower
 
 int main()
 {
@@ -27,12 +28,13 @@ int main()
 	for(i = 2; i >= 0; --i) {
 		rings[i].size = i;
 		rings[i].location = 0;
+		rings[i].held = false;
 	}
 
-	// initialize holders
-	memset(holders[0].rings, true, 3);
-	memset(holders[1].rings, false, 3);
-	memset(holders[2].rings, false, 3);
+	// initialize towers
+	memset(towers[0].rings, true, 3);
+	memset(towers[1].rings, false, 3);
+	memset(towers[2].rings, false, 3);
 
 	wmain = initscr();
 	cbreak();
@@ -42,7 +44,7 @@ int main()
 
 	// draw layout
 	draw_title();
-	wbody = newwin(7, getmaxx(wmain), 10, 0);
+	wbody = newwin(9, getmaxx(wmain), 8, 0);
 	draw_body();
 
 	refresh();
@@ -62,9 +64,9 @@ void draw_title() {
 
 void draw_body() {
 	werase(wbody);
-	draw_holder(0, getmaxx(wbody)/4 - 4, 6);
-	draw_holder(1, getmaxx(wbody)/2 - 4, 6);
-	draw_holder(2, 3*getmaxx(wbody)/4 - 4, 6);
+	draw_tower(0, getmaxx(wbody)/4 - 4, 8);
+	draw_tower(1, getmaxx(wbody)/2 - 4, 8);
+	draw_tower(2, 3*getmaxx(wbody)/4 - 4, 8);
 
 	// FIXME placeholder implementation
 	/*
@@ -84,7 +86,7 @@ void draw_body() {
 	*/
 }
 
-void draw_holder(int ring_index, int startx, int starty) {
+void draw_tower(int ring_index, int startx, int starty) {
 	int count;
 	int i;
 
@@ -94,7 +96,7 @@ void draw_holder(int ring_index, int startx, int starty) {
 	count = 4;
 	mvwprintw(wbody, starty, startx, "---------");
 	for(i = 0; i < 3; ++i) {
-		if(holders[ring_index].rings[i]) {
+		if(towers[ring_index].rings[i] && !rings[i].held) {
 			mvwprintw(wbody, getcury(wbody)-1, startx, rings[i].ascii);
 			--count;
 		}
@@ -104,6 +106,11 @@ void draw_holder(int ring_index, int startx, int starty) {
 		--count;
 	}
 	mvwprintw(wbody, getcury(wbody)-1, startx, "    ^    ");
+
+	// draw held ring above the others
+	if(held != NULL && held->location == ring_index) {
+		mvwprintw(wbody, getcury(wbody)-2, startx, held->ascii);
+	}
 
 	wattroff(wbody, A_BOLD);
 }
@@ -123,6 +130,14 @@ void input_loop() {
 
 			case KEY_LEFT:
 				hover_move_left();
+				draw_body();
+				wrefresh(wbody);
+				break;
+
+			// pickup a ring
+			case ' ': // spacebar
+				// TODO check if a ring is already held, in which case we need to do something else
+				pickup_ring();
 				draw_body();
 				wrefresh(wbody);
 				break;

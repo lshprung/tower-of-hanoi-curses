@@ -1,0 +1,8 @@
+tower_of_hanoi_curses-holder.o: holder.c /usr/include/stdc-predef.h \
+ holder.h /usr/lib/gcc/x86_64-redhat-linux/8/include/stdbool.h
+
+/usr/include/stdc-predef.h:
+
+holder.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/8/include/stdbool.h:
