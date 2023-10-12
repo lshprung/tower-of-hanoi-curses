@@ -1,0 +1,26 @@
+[
+ {
+  "directory": "/home/louie/Development/projects/tower_of_hanoi_curses/src",
+  "arguments": [
+   "gcc",
+   "-DHAVE_CONFIG_H",
+   "-I.",
+   "-I..",
+   "-D_GNU_SOURCE",
+   "-D_DEFAULT_SOURCE",
+   "-g",
+   "-O2",
+   "-MT",
+   "tower_of_hanoi_curses-main.o",
+   "-MD",
+   "-MP",
+   "-MF",
+   ".deps/tower_of_hanoi_curses-main.Tpo",
+   "-c",
+   "-o",
+   "tower_of_hanoi_curses-main.o",
+   "main.c"
+  ],
+  "file": "main.c"
+ }
+]
