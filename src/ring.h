@@ -14,5 +14,6 @@ extern Ring rings[3];
 extern Ring *held;
 
 void pickup_ring();
+bool drop_ring();
 
 #endif
