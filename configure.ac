@@ -24,6 +24,17 @@ if test "x$ax_cv_curses" != xyes; then
 	AC_MSG_ERROR([requires an X/Open-compatible Curses library])
 fi
 
+# enables/disables
+AC_ARG_ENABLE([debug],
+  [AS_HELP_STRING([--enable-debug], [enable debug output (disabled by default)])],
+  [enable_debug=${enableval}],
+  [enable_debug=no])
+if test "x$enable_debug" = xyes; then
+	AC_DEFINE_UNQUOTED([DEBUG], [1], [Enable debug printing])
+else
+	AC_DEFINE_UNQUOTED([DEBUG], [0], [Enable debug printing])
+fi
+
 # Setup Automake
 AM_INIT_AUTOMAKE
 AC_CONFIG_FILES([

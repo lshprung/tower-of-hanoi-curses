@@ -1,4 +1,5 @@
 #include <curses.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include "config.h"
@@ -86,24 +87,26 @@ void draw_body() {
 	*/
 
 	// DEBUG
-	mvprintw(0, 0, "tower 1: %c %c %c", (towers[0].rings[0] ? 'X' : '_'), (towers[0].rings[1] ? 'X' : '_'), (towers[0].rings[2] ? 'X' : '_'));
-	mvprintw(1, 0, "tower 2: %c %c %c", (towers[1].rings[0] ? 'X' : '_'), (towers[1].rings[1] ? 'X' : '_'), (towers[1].rings[2] ? 'X' : '_'));
-	mvprintw(2, 0, "tower 3: %c %c %c", (towers[2].rings[0] ? 'X' : '_'), (towers[2].rings[1] ? 'X' : '_'), (towers[2].rings[2] ? 'X' : '_'));
-	mvprintw(3, 0, "ring 1:");
-	mvprintw(4, 2, "location: %d", rings[0].location);
-	mvprintw(5, 2, "held:     %d", rings[0].held);
-	mvprintw(6, 2, "size:     %d", rings[0].size);
-	mvprintw(7, 2, "ascii:    %s", rings[0].ascii);
-	mvprintw(8, 0, "ring 2:");
-	mvprintw(9, 2, "location: %d", rings[1].location);
-	mvprintw(10, 2, "held:     %d", rings[1].held);
-	mvprintw(11, 2, "size:     %d", rings[1].size);
-	mvprintw(12, 2, "ascii:    %s", rings[1].ascii);
-	mvprintw(13, 0, "ring 3:");
-	mvprintw(14, 2, "location: %d", rings[2].location);
-	mvprintw(15, 2, "held:     %d", rings[2].held);
-	mvprintw(16, 2, "size:     %d", rings[2].size);
-	mvprintw(17, 2, "ascii:    %s", rings[2].ascii);
+	if(DEBUG) {
+		mvprintw(0, 0, "tower 1: %c %c %c", (towers[0].rings[0] ? 'X' : '_'), (towers[0].rings[1] ? 'X' : '_'), (towers[0].rings[2] ? 'X' : '_'));
+		mvprintw(1, 0, "tower 2: %c %c %c", (towers[1].rings[0] ? 'X' : '_'), (towers[1].rings[1] ? 'X' : '_'), (towers[1].rings[2] ? 'X' : '_'));
+		mvprintw(2, 0, "tower 3: %c %c %c", (towers[2].rings[0] ? 'X' : '_'), (towers[2].rings[1] ? 'X' : '_'), (towers[2].rings[2] ? 'X' : '_'));
+		mvprintw(3, 0, "ring 1:");
+		mvprintw(4, 2, "location: %d", rings[0].location);
+		mvprintw(5, 2, "held:     %d", rings[0].held);
+		mvprintw(6, 2, "size:     %d", rings[0].size);
+		mvprintw(7, 2, "ascii:    %s", rings[0].ascii);
+		mvprintw(8, 0, "ring 2:");
+		mvprintw(9, 2, "location: %d", rings[1].location);
+		mvprintw(10, 2, "held:     %d", rings[1].held);
+		mvprintw(11, 2, "size:     %d", rings[1].size);
+		mvprintw(12, 2, "ascii:    %s", rings[1].ascii);
+		mvprintw(13, 0, "ring 3:");
+		mvprintw(14, 2, "location: %d", rings[2].location);
+		mvprintw(15, 2, "held:     %d", rings[2].held);
+		mvprintw(16, 2, "size:     %d", rings[2].size);
+		mvprintw(17, 2, "ascii:    %s", rings[2].ascii);
+	}	
 }
 
 void draw_tower(int ring_index, int startx, int starty) {

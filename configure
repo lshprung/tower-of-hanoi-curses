@@ -678,6 +678,7 @@ ac_user_opts='
 enable_option_checking
 with_ncurses
 with_ncursesw
+enable_debug
 enable_dependency_tracking
 enable_silent_rules
 '
@@ -1309,6 +1310,7 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-debug          enable debug output (disabled by default)
   --enable-dependency-tracking
                           do not reject slow dependency extractors
   --disable-dependency-tracking
@@ -3916,6 +3918,28 @@ fi
 
 if test "x$ax_cv_curses" != xyes; then
 	as_fn_error $? "requires an X/Open-compatible Curses library" "$LINENO" 5
+fi
+
+# enables/disables
+# Check whether --enable-debug was given.
+if test "${enable_debug+set}" = set; then :
+  enableval=$enable_debug; enable_debug=${enableval}
+else
+  enable_debug=no
+fi
+
+if test "x$enable_debug" = xyes; then
+
+cat >>confdefs.h <<_ACEOF
+#define DEBUG 1
+_ACEOF
+
+else
+
+cat >>confdefs.h <<_ACEOF
+#define DEBUG 0
+_ACEOF
+
 fi
 
 # Setup Automake
