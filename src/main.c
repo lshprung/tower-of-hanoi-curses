@@ -9,6 +9,7 @@
 void draw_title();
 void draw_body();
 void draw_tower(int ring_index, int startx, int starty);
+void draw_move_count();
 void input_loop();
 
 WINDOW *wmain;
@@ -17,6 +18,7 @@ Ring rings[3];
 Ring *held = NULL;
 Tower towers[3];
 int hover = 0; // initially, hover over the leftmost tower
+int move_count = 0;
 
 int main()
 {
@@ -43,12 +45,13 @@ int main()
 	curs_set(0);
 	keypad(stdscr, TRUE);
 
-	// draw layout
+	// draw title
 	draw_title();
-	wbody = newwin(9, getmaxx(wmain), 8, 0);
-	draw_body();
-
 	refresh();
+
+	// draw body
+	wbody = newwin(12, getmaxx(wmain), 8, 0);
+	draw_body();
 	wrefresh(wbody);
 
 	input_loop();
@@ -68,6 +71,7 @@ void draw_body() {
 	draw_tower(0, getmaxx(wbody)/4 - 4, 8);
 	draw_tower(1, getmaxx(wbody)/2 - 4, 8);
 	draw_tower(2, 3*getmaxx(wbody)/4 - 4, 8);
+	draw_move_count();
 
 	// FIXME placeholder implementation
 	/*
@@ -138,6 +142,18 @@ void draw_tower(int ring_index, int startx, int starty) {
 	wattroff(wbody, A_BOLD);
 }
 
+void draw_move_count() {
+	// tried to use log10, but this created weird problems
+	int local_move_count = move_count;
+	int count_length = 1;
+	while(local_move_count >= 10) {
+		local_move_count /= 10;
+		++count_length;
+	}
+	mvwprintw(wbody, 10, getmaxx(wbody)/2 - (7 + count_length)/2,
+			"moves: %d", move_count);
+}
+
 void input_loop() {
 	int input = 0;
 
@@ -161,6 +177,7 @@ void input_loop() {
 			case ' ': // spacebar
 				if(held == NULL) {
 					pickup_ring();
+					if(held != NULL) ++move_count;
 					draw_body();
 					wrefresh(wbody);
 				}
@@ -171,6 +188,7 @@ void input_loop() {
 					}
 				}
 				break;
+
 		}
 	}
 }

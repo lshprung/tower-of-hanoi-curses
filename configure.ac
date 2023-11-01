@@ -13,10 +13,13 @@ AC_PROG_CC
 # Checks for libraries.
 
 # Checks for header files.
+AC_CHECK_HEADERS([stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_HEADER_STDBOOL
 
 # Checks for library functions.
+AC_CHECK_FUNCS([memset])
 
 # check for any curses library
 AX_WITH_CURSES
