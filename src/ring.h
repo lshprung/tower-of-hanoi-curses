@@ -15,5 +15,6 @@ extern Ring *held;
 
 void pickup_ring();
 bool drop_ring();
+bool check_win_condition();
 
 #endif

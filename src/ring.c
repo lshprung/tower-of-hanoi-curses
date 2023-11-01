@@ -44,3 +44,13 @@ bool drop_ring() {
 	held = NULL;
 	return true;
 }
+
+bool check_win_condition() {
+	int i;
+
+	for(i = 0; i < 3; ++i) {
+		if(rings[i].location != 2) return false;
+	}
+
+	return true;
+}

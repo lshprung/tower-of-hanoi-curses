@@ -9,10 +9,13 @@
 #define TERMINAL_MIN_HEIGHT 14
 #define TERMINAL_MIN_WIDTH  39
 
+void init_rings();
+void init_towers();
 bool check_terminal();
 void draw_title();
 void draw_body();
 void draw_tower(int ring_index, int startx, int starty);
+void draw_win();
 void draw_move_count();
 void input_loop();
 
@@ -26,22 +29,8 @@ int move_count = 0;
 
 int main()
 {
-	int i;
-
-	// initialize rings
-	strcpy(rings[0].ascii, " ======= ");
-	strcpy(rings[1].ascii, "  =====  ");
-	strcpy(rings[2].ascii, "   ===   ");
-	for(i = 2; i >= 0; --i) {
-		rings[i].size = i;
-		rings[i].location = 0;
-		rings[i].held = false;
-	}
-
-	// initialize towers
-	memset(towers[0].rings, true, 3);
-	memset(towers[1].rings, false, 3);
-	memset(towers[2].rings, false, 3);
+	init_rings();
+	init_towers();
 
 	wmain = initscr();
 	cbreak();
@@ -67,6 +56,27 @@ int main()
 	endwin();
 
 	return 0;
+}
+
+void init_rings() {
+	int i;
+
+	// initialize rings
+	strcpy(rings[0].ascii, " ======= ");
+	strcpy(rings[1].ascii, "  =====  ");
+	strcpy(rings[2].ascii, "   ===   ");
+	for(i = 2; i >= 0; --i) {
+		rings[i].size = i;
+		rings[i].location = 0;
+		rings[i].held = false;
+	}
+}
+
+void init_towers() {
+	// initialize towers
+	memset(towers[0].rings, true, 3);
+	memset(towers[1].rings, false, 3);
+	memset(towers[2].rings, false, 3);
 }
 
 bool check_terminal() {
@@ -127,6 +137,8 @@ void draw_body() {
 		mvprintw(16, 2, "size:     %d", rings[2].size);
 		mvprintw(17, 2, "ascii:    %s", rings[2].ascii);
 	}	
+
+	if(held == NULL && check_win_condition()) draw_win();
 }
 
 void draw_tower(int ring_index, int startx, int starty) {
@@ -158,6 +170,11 @@ void draw_tower(int ring_index, int startx, int starty) {
 	wattroff(wbody, A_BOLD);
 }
 
+void draw_win() {
+	char *message = "WINNER (Return Key to play again)";
+	mvwprintw(wbody, getmaxy(wbody)/2, getmaxx(wbody)/2 - strlen(message)/2, message);
+}
+
 void draw_move_count() {
 	// tried to use log10, but this created weird problems
 	int local_move_count = move_count;
@@ -176,35 +193,49 @@ void input_loop() {
 	while(input != 'q') {
 		input = getch();
 
-		switch(input) {
-			case KEY_RIGHT:
-				hover_move_right();
-				draw_body();
-				wrefresh(wbody);
-				break;
-
-			case KEY_LEFT:
-				hover_move_left();
-				draw_body();
-				wrefresh(wbody);
-				break;
-
-			// pickup a ring
-			case ' ': // spacebar
-				if(held == NULL) {
-					pickup_ring();
-					if(held != NULL) ++move_count;
+		if(held != NULL || !check_win_condition()) {
+			switch(input) {
+				case KEY_RIGHT:
+					hover_move_right();
 					draw_body();
 					wrefresh(wbody);
-				}
-				else {
-					if(drop_ring()) {
+					break;
+
+				case KEY_LEFT:
+					hover_move_left();
+					draw_body();
+					wrefresh(wbody);
+					break;
+
+				// pickup a ring
+				case ' ': // spacebar
+					if(held == NULL) {
+						pickup_ring();
+						if(held != NULL) ++move_count;
 						draw_body();
 						wrefresh(wbody);
 					}
-				}
-				break;
+					else {
+						if(drop_ring()) {
+							draw_body();
+							wrefresh(wbody);
+						}
+					}
+					break;
 
+			}
+		}
+		else {
+			switch(input) {
+				case 10: // enter/return key
+					init_rings();
+					init_towers();
+					hover = 0;
+					move_count = 0;
+					draw_body();
+					wrefresh(wbody);
+					break;
+			}
 		}
 	}
 }
