@@ -6,6 +6,10 @@
 #include "tower.h"
 #include "ring.h"
 
+#define TERMINAL_MIN_HEIGHT 14
+#define TERMINAL_MIN_WIDTH  39
+
+bool check_terminal();
 void draw_title();
 void draw_body();
 void draw_tower(int ring_index, int startx, int starty);
@@ -45,20 +49,32 @@ int main()
 	curs_set(0);
 	keypad(stdscr, TRUE);
 
-	// draw title
-	draw_title();
-	refresh();
+	// check that the terminal can handle the program
+	if(check_terminal()) {
 
-	// draw body
-	wbody = newwin(12, getmaxx(wmain), 8, 0);
-	draw_body();
-	wrefresh(wbody);
+		// draw title
+		draw_title();
+		refresh();
 
-	input_loop();
+		// draw body
+		wbody = newwin(12, getmaxx(wmain), getmaxy(wmain)/2 - 6, 0);
+		draw_body();
+		wrefresh(wbody);
+
+		input_loop();
+	}
 
 	endwin();
 
 	return 0;
+}
+
+bool check_terminal() {
+	// check that terminal is big enough
+	if(getmaxx(wmain) < TERMINAL_MIN_WIDTH) return false;
+	if(getmaxy(wmain) < TERMINAL_MIN_HEIGHT) return false;
+
+	return true;
 }
 
 void draw_title() {
